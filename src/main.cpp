@@ -77,7 +77,6 @@ static void event_handler(lv_event_t * e)
         }
 
         delay(500);  // Mesure toutes les 500 ms
-    
     }
 }
 
