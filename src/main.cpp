@@ -7,6 +7,9 @@
 #define MAX_HISTORY_SIZE 10
 
 static lv_obj_t* label_distance;
+static lv_obj_t* label_valeur1;
+static lv_obj_t* label_valeur2;
+static lv_obj_t* label_surface;
 static lv_timer_t* measure_timer = NULL;
 
 static int last_measured_distance = -1;
@@ -39,7 +42,33 @@ static void save_distance_event_cb(lv_event_t * e) {
         update_history_display();
     }
 }
-
+int val1 = 0;
+int val2 = 0;
+float surface;
+static void valeur1(lv_event_t * e){
+    char buf[32];
+    val1 = last_measured_distance;
+    snprintf(buf, sizeof(buf), "valeur1 : %d cm", val1);
+        lv_label_set_text(label_valeur1, buf);
+    if(val2!= 0){
+        surface = (val1/100.0f)*(val2/100.0f);
+        snprintf(buf, sizeof(buf), "surface : %f m2", surface);
+        lv_label_set_text(label_surface, buf);
+    }
+    else{}
+}
+static void valeur2(lv_event_t * e){
+    char buf[32];
+    val2 = last_measured_distance;
+    snprintf(buf, sizeof(buf), "valeur2 : %d cm", val2);
+        lv_label_set_text(label_valeur2, buf);
+    if(val1!= 0){
+        surface = (val1/100.0f)*(val2/100.0f);
+        snprintf(buf, sizeof(buf), "surface : %f m2", surface);
+        lv_label_set_text(label_surface, buf);
+    }
+    else{}
+}
 static void clear_history_event_cb(lv_event_t * e) {
     history_index = 0;
     for (int i = 0; i < MAX_HISTORY_SIZE; i++) {
@@ -148,6 +177,32 @@ void testLvgl()
     lv_obj_t * label_clear = lv_label_create(btn_clear);
     lv_label_set_text(label_clear, "Supprimer");
     lv_obj_center(label_clear);
+
+    lv_obj_t * btn_valeur1 = lv_button_create(lv_scr_act());
+    lv_obj_add_event_cb(btn_valeur1, valeur1, LV_EVENT_CLICKED, NULL);
+    lv_obj_align(btn_valeur1, LV_ALIGN_CENTER, -10, 60);
+    lv_obj_t * label_val = lv_label_create(btn_valeur1);
+    lv_label_set_text(label_val, "valeur 1");
+    lv_obj_center(label_val);
+
+    lv_obj_t * btn_valeur2 = lv_button_create(lv_scr_act());
+    lv_obj_add_event_cb(btn_valeur2, valeur2, LV_EVENT_CLICKED, NULL);
+    lv_obj_align(btn_valeur2, LV_ALIGN_CENTER, -10, 100);
+    lv_obj_t * label_val2 = lv_label_create(btn_valeur2);
+    lv_label_set_text(label_val2, "valeur 2");
+    lv_obj_center(label_val2);
+
+    label_surface = lv_label_create(lv_scr_act());
+    lv_label_set_text(label_surface,"Surface : ---");
+    lv_obj_align(label_surface, LV_ALIGN_CENTER, 0, -100);
+
+    label_valeur1 = lv_label_create(lv_scr_act());
+    lv_label_set_text(label_valeur1,"Valeur1 : ---");
+    lv_obj_align(label_valeur1, LV_ALIGN_CENTER, -150, -70);
+
+    label_valeur2 = lv_label_create(lv_scr_act());
+    lv_label_set_text(label_valeur2,"Valeur2 : ---");
+    lv_obj_align(label_valeur2, LV_ALIGN_CENTER, -150, -100);
 }
 
 #ifdef ARDUINO
