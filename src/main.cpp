@@ -12,6 +12,7 @@ static lv_obj_t* label_valeur2;
 static lv_obj_t* label_surface;
 static lv_timer_t* measure_timer = NULL;
 
+
 static int last_measured_distance = -1;
 static int distance_history[MAX_HISTORY_SIZE];
 static int history_index = 0;
@@ -51,8 +52,8 @@ static void valeur1(lv_event_t * e){
     snprintf(buf, sizeof(buf), "valeur1 : %d cm", val1);
         lv_label_set_text(label_valeur1, buf);
     if(val2!= 0){
-        surface = (val1/100.0f)*(val2/100.0f);
-        snprintf(buf, sizeof(buf), "surface : %f m2", surface);
+        surface = ((val1/100.0f)*(val2/100.0f));
+        snprintf(buf, sizeof(buf), "surface : %.2f m2", surface);
         lv_label_set_text(label_surface, buf);
     }
     else{}
@@ -63,8 +64,8 @@ static void valeur2(lv_event_t * e){
     snprintf(buf, sizeof(buf), "valeur2 : %d cm", val2);
         lv_label_set_text(label_valeur2, buf);
     if(val1!= 0){
-        surface = (val1/100.0f)*(val2/100.0f);
-        snprintf(buf, sizeof(buf), "surface : %f m2", surface);
+        surface = ((val1/100.0f)*(val2/100.0f));
+        snprintf(buf, sizeof(buf), "surface : %.2f m2", surface);
         lv_label_set_text(label_surface, buf);
     }
     else{}
